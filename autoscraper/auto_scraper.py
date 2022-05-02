@@ -220,6 +220,10 @@ class AutoScraper(object):
         text_fuzz_ratio: float in range [0, 1], optional, defaults to 1.0
             The fuzziness ratio threshold for matching the wanted contents.
 
+        only_shared_rules: bool, defaults to False
+            If True, new learned rules will be added to the previous ones, with removing rules, which 
+                don't work on another pages. Use only for learning on one domain
+
         Returns:
         --------
         List of similar results
