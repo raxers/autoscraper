@@ -16,6 +16,7 @@ from autoscraper.utils import (
     text_match,
     unique_hashable,
     unique_stack_list,
+    dublicated_stack_list
 )
 
 
