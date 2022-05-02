@@ -18,6 +18,17 @@ def unique_stack_list(stack_list):
         seen.add(stack_hash)
     return unique_list
 
+def dublicated_stack_list(original_list, new_list):
+    resulted_list = []
+    seen = []
+    for new_item in new_list:
+        for old_item in original_list:
+            if new_item['hash'] == old_item['hash'] and new_item['hash'] not in seen:
+                resulted_list.append(new_item)
+                seen.append(new_item['hash'])
+                continue
+    return resulted_list
+
 
 def unique_hashable(hashable_items):
     """Removes duplicates from the list. Must preserve the orders."""

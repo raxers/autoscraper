@@ -184,6 +184,7 @@ class AutoScraper(object):
         request_args=None,
         update=False,
         text_fuzz_ratio=1.0,
+        only_shared_rules=False
     ):
         """
         Automatically constructs a set of rules to scrape the specified target[s] from a web page.
@@ -235,6 +236,7 @@ class AutoScraper(object):
             wanted_dict = {"": wanted_list}
 
         wanted_list = []
+        dublicated_list = []
 
         for alias, wanted_items in wanted_dict.items():
             wanted_items = [normalize(w) for w in wanted_items]
@@ -247,12 +249,21 @@ class AutoScraper(object):
                     result, stack = self._get_result_for_child(child, soup, url)
                     stack["alias"] = alias
                     result_list += result
-                    self.stack_list.append(stack)
+                    if only_shared_rules:
+                        dublicated_list.append(stack)
+                    else:
+                        self.stack_list.append(stack)
 
         result_list = [item.text for item in result_list]
         result_list = unique_hashable(result_list)
 
-        self.stack_list = unique_stack_list(self.stack_list)
+        if only_shared_rules:
+            if len(self.stack_list) == 0:
+                self.stack_list = dublicated_list
+            else:
+                self.stack_list = dublicated_stack_list(self.stack_list, dublicated_list)            
+        else:
+            self.stack_list = unique_stack_list(self.stack_list)
         return result_list
 
     @classmethod
